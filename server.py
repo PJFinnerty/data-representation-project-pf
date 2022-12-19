@@ -1,20 +1,20 @@
 from flask import Flask, jsonify, request, abort
-from DAO import TestDAO
+from DAO import DAO
 
 app = Flask(__name__, static_url_path='', static_folder='.')
 
 @app.route('/cinema')
 def findAll():
     #print("in findAll")
-    results = TestDAO.findAll()
+    results = DAO.findAll()
     return jsonify(results)
     
 @app.route('/cinema/<int:id>')
 def findItem(id):
-    foundItem = TestDAO.findItem(id)
+    foundItem = DAO.findItem(id)
     return jsonify(foundItem)
     
-@app.route('/delivery', methods=['POST'])
+@app.route('/cinema', methods=['POST'])
 def create():
 
     delivery = {
@@ -23,3 +23,14 @@ def create():
             "Screen": request.json['Screen'],
             "Minutes": request.json['Minutes'],
         }
+        
+@app.route('/cinema/<int:id>' , methods=['DELETE'])
+def delete(id):
+    DAO.delete(id)
+    return jsonify({"done":True})
+    
+@app.route('/cinema/<int:id>', methods=['PUT'])
+def update(id):
+    
+if __name__ == '__main__' :
+    app.run(debug= True)
