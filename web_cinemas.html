@@ -83,8 +83,70 @@
         document.getElementById('doUpdateButton').style.display="none"
     }
 	
+	function doCreate(){
+	// Get elements from create form
+        var form = document.getElementById('createUpdateForm')
+	// Assign inputs to dict and extract values using querySelector()
+        var Product = {}
+        Product.Cinema_Name = form.querySelector('input[name="Cinema_Name"]').value
+        Product.Location = form.querySelector('input[name="Location"]').value
+		Product.NumberOfScreens = form.querySelector('input[name="NumberOfScreens"]').value
+        Product.Member_Status = form.querySelector('input[name="Member_Status"]').value
+		// Print JSON to console and pass to AJAX call
+        console.log(JSON.stringify(Product))
+        createProductAjax(Product)
+    }
 	
-    
+	function createProductAjax(Product){
+        console.log(JSON.stringify(Product));
+		// Ajax cod for create (POST), set type to JSON
+		host = window.location.origin
+        $.ajax({
+            "url": host+"/cinemas",
+            "method":"POST",
+            "data":JSON.stringify(Product),
+            "dataType": "JSON",
+            contentType: "application/json; charset=utf-8",
+			// If successful, pass JSON element to 'addProductToTable()
+            "success":function(result){
+                //console.log(result);
+                Product.id = result.id
+                addProductToTable(Product)
+				// Clear the form and call viewAll to return to home
+                clearForm() //HERE
+                viewAll() // HERE
+            },
+			// Create a function when unsuccessful - create error message
+            "error":function(xhr,status,error){
+                console.log("error: "+status+" msg:"+error);
+            }
+        });
+    }
+	
+    function showUpdate(buttonElement){
+        document.getElementById('displayCreateButton').style.display="none"
+        document.getElementById('itemsListed').style.display="none"
+        document.getElementById('createUpdateForm').style.display="block"
+
+        document.getElementById('createLabel').style.display="none"
+        document.getElementById('updateLabel').style.display="inline"
+
+        document.getElementById('doCreateButton').style.display="none"
+        document.getElementById('doUpdateButton').style.display="block"
+        var rowElement = buttonElement.parentNode.parentNode
+        var Product = getProductFromRow(rowElement) // HERE
+        populateFormWithProduct(Product) // TO HERE
+    }
+	    
+    function doUpdate(){
+        var Product = getProductFromForm();
+        var rowElement = document.getElementById(Product.id);
+        updateProductAjax(Product);
+        setProductInRow(rowElement,Product);
+        clearForm();
+        viewAll();
+    }
+	
     getAllAjax();
      
     </script>
