@@ -1,0 +1,47 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>Cinemas</title><br>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+       
+	    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+		<!<link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <h1>Cinemas</h1><br>
+        <div> <button id="displayCreateButton" onclick="showCreate()">Select Cinema</button></div><br>
+        <div>
+            <table class="table" id="itemsListed">
+                <tr>
+                        <th>id</th>
+                        <th>Cinema Name</th>
+                        <th>
+                            Location
+                        </th>
+						<th>Number of Screens</th>
+                        <th>Member_Status</th>
+                        <th>Update</th>
+                        <th>Delete</th>
+                </tr>  
+            </table>
+
+        </div>
+		<! Form that is shown when 'create' button is clicked-includes fields for each feature except id and a 'Create Cinema_Name' button>
+		<! Span used for inline elements>
+        <div id='createUpdateForm' style="display: none">
+				<! Button that leads from homescreen to create form>
+                <h2><span id="createLabel">Choose a </span> 
+				<! Button that leads from homescreen to update form>
+				<span id="updateLabel">Select a cinema</span> Product</h2>
+                <input type="hidden" name="id"/>
+                Cinema Name <input type="text" name="Cinema_Name" /><br/>
+                Location<input type="text" name="Location"/> <br/>
+				NumberOfScreens<input type="number" name="NumberOfScreens"/> <br/>
+                Member Status <input type="number" name="Member_Status"/> <br/>
+                <span><button id="doCreateButton" onclick="doCreate()">Select a Cinema</button></span>
+                <span><button id="doUpdateButton" onclick="doUpdate()">Login</button></span>
+        </div>
+		
+    </body>
+
+</html>
