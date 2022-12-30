@@ -43,5 +43,49 @@
         </div>
 		
     </body>
+    <script>
+	
+	function viewAll(){
+        document.getElementById('displayCreateButton').style.display="block"
+        document.getElementById('itemsListed').style.display="block"
+        document.getElementById('createUpdateForm').style.display="none"
+    }
+	
+	function getAllAjax(){
+		host = window.location.origin
+        $.ajax({
+            "url": host+"/cinemas",
+            "method":"GET",
+            "data":"",
+            "dataType": "JSON",
+            "success":function(result){
+                //console.log(result);
+                for (Product of result){
+                    addProductToTable(Product);
+                }
+                
+            },
+            "error":function(xhr,status,error){
+                console.log("error: "+status+" msg:"+error);
+            }
+        });
+	}
+	
+    function showCreate(){
+        document.getElementById('displayCreateButton').style.display="none"
+        document.getElementById('itemsListed').style.display="none"
+        document.getElementById('createUpdateForm').style.display="block"
 
+        document.getElementById('createLabel').style.display="inline"
+        document.getElementById('updateLabel').style.display="none"
+
+        document.getElementById('doCreateButton').style.display="block"
+        document.getElementById('doUpdateButton').style.display="none"
+    }
+	
+	
+    
+    getAllAjax();
+     
+    </script>
 </html>
