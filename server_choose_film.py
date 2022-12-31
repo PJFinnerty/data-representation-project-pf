@@ -1,8 +1,56 @@
-from flask import Flask, jsonify, request, abort
+from flask import Flask, jsonify, request, abort, session, url_for, redirect
 from cinemasDAO import cinemasDAO
 from deliveryDAO import deliveryDAO
 
 app = Flask(__name__, static_url_path='', static_folder='.')
+
+app.secret_key = 'SomeSecretKey'
+# Autheticate on opening the Server
+# If Username is not in config file, redirect to login
+@app.route('/')
+def home():
+    if not 'username' in session:
+        return redirect(url_for('login'))
+   # return redirect('web_delivery.html')
+   # Else proceed to url of getToOrder() function
+    return 'welcome '+ session['username'] +\
+        '<br><a href="'+url_for('logout')+'">logout</a>'+\
+        '<br><br><a href="'+url_for('getToOrder')+'">Go to order</a>'
+
+# login button
+@app.route('/login')
+def login():
+    return '<h1> login</h1> '+\
+        '<button>'+\
+            '<a href="'+url_for('process_login')+'">' +\
+                'login' +\
+            '</a>' +\
+        '</button>'  
+                
+#"<a href="url_for('process_login')+"'>" +\    
+ 
+# Process login url  
+@app.route('/processlogin')
+def process_login():
+    # Check cred - if wrong redirect to login page
+    
+    # else
+    session['username']=cfg.mysql['username']
+    return redirect(url_for('home'))
+    
+@app.route('/logout')
+def logout():
+    session.pop('username', None)
+    return redirect(url_for('home'))
+ 
+@app.route('/data')
+def getToOrder():
+    if not 'username' in session:
+        abort(401)
+       # User is authorised
+    #return '{"data":"all here"}'
+    return redirect('web_cinemas5.html')
+#==============================================
 
 # Cinema 
 @app.route('/cinemas')
