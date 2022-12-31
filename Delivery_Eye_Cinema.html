@@ -1,0 +1,276 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>Delivery</title><br>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+       
+	    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+		<!<link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <h1>Delivery for Newsagents</h1><br>
+        <div> <button id="displayCreateButton" onclick="showCreate()">Order new Item</button></div><br>
+        <div>
+            <table class="table" id="itemsListed">
+                <tr>
+                        <th>id</th>
+                        <th>Item</th>
+                        <th>
+                            Type
+                        </th>
+						<th>Quantity</th>
+                        <th>Total Price</th>
+                        <th>Update</th>
+                        <th>Delete</th>
+                </tr>  
+            </table>
+
+        </div>
+		<! Form that is shown when 'create' button is clicked-includes fields for each feature except id and a 'Create item' button>
+		<! Span used for inline elements>
+        <div id='createUpdateForm' style="display: none">
+				<! Button that leads from homescreen to create form>
+                <h2><span id="createLabel">Order a </span> 
+				<! Button that leads from homescreen to update form>
+				<span id="updateLabel">update an Item</span> Product</h2>
+                <input type="hidden" name="id"/>
+                Item <input type="text" name="Item" /><br/>
+                Type <input type="text" name="Type"/> <br/>
+				Quantity <input type="number" name="Quantity"/> <br/>
+                TotPrice <input type="number" name="TotPrice"/> <br/>
+                <span><button id="doCreateButton" onclick="doCreate()">Create an Item</button></span>
+                <span><button id="doUpdateButton" onclick="doUpdate()">Update an Item</button></span>
+        </div>
+		
+    </body>
+    <script>
+	
+	function viewAll(){
+        document.getElementById('displayCreateButton').style.display="block"
+        document.getElementById('itemsListed').style.display="block"
+        document.getElementById('createUpdateForm').style.display="none"
+    }
+	
+	function getAllAjax(){
+		host = window.location.origin
+        $.ajax({
+            "url": host+"/EyeCinema",
+            "method":"GET",
+            "data":"",
+            "dataRype": "JSON",
+            "success":function(result){
+                //console.log(result);
+                for (Product of result){
+                    addProductToTable(Product);
+                }
+                
+            },
+            "error":function(xhr,status,error){
+                console.log("error: "+status+" msg:"+error);
+            }
+        });
+	}
+	
+    function showCreate(){
+        document.getElementById('displayCreateButton').style.display="none"
+        document.getElementById('itemsListed').style.display="none"
+        document.getElementById('createUpdateForm').style.display="block"
+
+        document.getElementById('createLabel').style.display="inline"
+        document.getElementById('updateLabel').style.display="none"
+
+        document.getElementById('doCreateButton').style.display="block"
+        document.getElementById('doUpdateButton').style.display="none"
+    }
+	
+	function doCreate(){
+	// Get elements from create form
+        var form = document.getElementById('createUpdateForm')
+	// Assign inputs to dict and extract values using querySelector()
+        var Product = {}
+        Product.Item = form.querySelector('input[name="Item"]').value
+        Product.Type = form.querySelector('input[name="Type"]').value
+		Product.Quantity = form.querySelector('input[name="Quantity"]').value
+        Product.TotPrice = form.querySelector('input[name="TotPrice"]').value
+		// Print JSON to console and pass to AJAX call
+        console.log(JSON.stringify(Product))
+        createProductAjax(Product)
+    }
+	
+	function createProductAjax(Product){
+        console.log(JSON.stringify(Product));
+		// Ajax cod for create (POST), set type to JSON
+		host = window.location.origin
+        $.ajax({
+            "url": host+"/EyeCinema",
+            "method":"POST",
+            "data":JSON.stringify(Product),
+            "dataRype": "JSON",
+            contentType: "application/json; charset=utf-8",
+			// If successful, pass JSON element to 'addProductToTable()
+            "success":function(result){
+                //console.log(result);
+                Product.id = result.id
+                addProductToTable(Product)
+				// Clear the form and call viewAll to return to home
+                clearForm() //HERE
+                viewAll() // HERE
+            },
+			// Create a function when unsuccessful - create error message
+            "error":function(xhr,status,error){
+                console.log("error: "+status+" msg:"+error);
+            }
+        });
+    }
+	
+    function showUpdate(buttonElement){
+        document.getElementById('displayCreateButton').style.display="none"
+        document.getElementById('itemsListed').style.display="none"
+        document.getElementById('createUpdateForm').style.display="block"
+
+        document.getElementById('createLabel').style.display="none"
+        document.getElementById('updateLabel').style.display="inline"
+
+        document.getElementById('doCreateButton').style.display="none"
+        document.getElementById('doUpdateButton').style.display="block"
+        var rowElement = buttonElement.parentNode.parentNode
+        var Product = getProductFromRow(rowElement) // HERE
+        populateFormWithProduct(Product) // TO HERE
+    }
+	    
+    function doUpdate(){
+        var Product = getProductFromForm();
+        var rowElement = document.getElementById(Product.id);
+        updateProductAjax(Product);
+        setProductInRow(rowElement,Product);
+        clearForm();
+        viewAll();
+    }
+	
+	function updateProductAjax(Product){
+        console.log(JSON.stringify(Product));
+		host = window.location.origin
+        $.ajax({
+            "url": host+"/EyeCinema/"+encodeURI(Product.id),
+            "method":"PUT",
+            "data":JSON.stringify(Product),
+            "dataRype": "JSON",
+            contentType: "application/json; charset=utf-8",
+            "success":function(result){
+               // console.log(result);
+                  
+            },
+            "error":function(xhr,status,error){
+                console.log("error: "+status+" msg:"+error);
+            }
+        });
+    }
+	
+    function doDelete(r){
+        var tableElement = document.getElementById('itemsListed');
+        var rowElement = r.parentNode.parentNode;
+        var index = rowElement.rowIndex;
+        deleteProductAjax(rowElement.getAttribute("id"));
+        tableElement.deleteRow(index);
+    }
+	
+	function deleteProductAjax(id){
+		host = window.location.origin
+        $.ajax({
+            "url": host+"/EyeCinema/"+encodeURI(id),
+            "method":"DELETE",
+            "data":"",
+            "dataRype": "JSON",
+            contentType: "application/json; charset=utf-8",
+            "success":function(result){
+                //console.log(result);
+            },
+            "error":function(xhr,status,error){
+                console.log("error: "+status+" msg:"+error);
+            }
+        });
+    }
+	
+	// Create function to add inputs to main table
+    function addProductToTable(Product){
+	// Create variable for each input from create/update forms 
+        var tableElement = document.getElementById('itemsListed')
+        var rowElement = tableElement.insertRow(-1)
+        rowElement.setAttribute('id',Product.id)
+		// Insert the id value from input
+        var cell1 = rowElement.insertCell(0);
+        cell1.innerHTML = Product.id
+		// Item
+        var cell2 = rowElement.insertCell(1);
+        cell2.innerHTML = Product.Item
+		// Type
+        var cell3 = rowElement.insertCell(2);
+        cell3.innerHTML = Product.Type
+		// Quantity
+		var cell4 = rowElement.insertCell(3);
+        cell4.innerHTML = Product.Quantity
+		// TotPrice
+		var cell5 = rowElement.insertCell(4);
+        cell5.innerHTML = Product.TotPrice 
+		// Pass in buttons to update and delete 
+        var cell6 = rowElement.insertCell(5);
+        cell6.innerHTML = '<button onclick="showUpdate(this)">Update</button>'
+        var cell7 = rowElement.insertCell(6);
+        cell7.innerHTML = '<button onclick=doDelete(this)>delete</button>' 
+    }
+
+    function clearForm(){
+        var form = document.getElementById('createUpdateForm')
+
+        form.querySelector('input[name="Item"]').value=''
+        form.querySelector('input[name="Type"]').value=''
+		form.querySelector('input[name="Quantity"]').value=''
+        form.querySelector('input[name="TotPrice"]').value=''
+    }
+	
+    function getProductFromRow(rowElement){
+        //HERE: var car ={}
+		var Product ={}
+        Product.id  = rowElement.getAttribute('id')
+        Product.Item = rowElement.cells[1].firstChild.textContent
+        Product.Type = rowElement.cells[2].firstChild.textContent
+		Product.Quantity = parseInt(rowElement.cells[3].firstChild.textContent,10)
+        Product.TotPrice = parseInt(rowElement.cells[4].firstChild.textContent,10)
+        return Product
+    }
+	
+    function setProductInRow(rowElement, Product){
+        rowElement.cells[0].firstChild.textContent= Product.id  
+        rowElement.cells[1].firstChild.textContent= Product.Item 
+        rowElement.cells[2].firstChild.textContent= Product.Type
+		rowElement.cells[3].firstChild.textContent= Product.Quantity
+        rowElement.cells[4].firstChild.textContent= Product.TotPrice
+    }
+	
+    function populateFormWithProduct(Product){
+        var form = document.getElementById('createUpdateForm')
+        form.querySelector('input[name="id"]').disabled = true
+        form.querySelector('input[name="id"]').value  = Product.id
+        form.querySelector('input[name="Item"]').value= Product.Item
+        form.querySelector('input[name="Type"]').value= Product.Type
+		form.querySelector('input[name="Quantity"]').value= Product.Quantity
+        form.querySelector('input[name="TotPrice"]').value= Product.TotPrice
+        return Product
+    }
+	
+    function getProductFromForm(){
+        var form = document.getElementById('createUpdateForm')
+        var Product = {}
+        Product.id = form.querySelector('input[name="id"]').value
+        Product.Item = form.querySelector('input[name="Item"]').value
+        Product.Type = form.querySelector('input[name="Type"]').value
+		Product.Quantity = parseInt(form.querySelector('input[name="Quantity"]').value,10)
+        Product.TotPrice = parseInt(form.querySelector('input[name="TotPrice"]').value,10)
+        console.log(JSON.stringify(Product))
+        return Product
+    }
+    
+    getAllAjax();
+     
+    </script>
+</html>
