@@ -1,17 +1,27 @@
+# Import Flas modules
 from flask import Flask, jsonify, request, abort, session, url_for, redirect
+
+# Import MySQL Config Files
+import dbconfig as cfg
+import dbconfigCinemas as cfg2
+
+# Import DAO Classes for Cinema Delivery Tables
 from cinemasDAO import cinemasDAO
-from deliveryDAO import deliveryDAO
+from DAOEyeCinema import deliveryDAO
+from DAOIMCHeadfordRoad import deliveryDAOHeadfordRoad
+from DAOIMCOranmore import deliveryDAOOranmore
 
 app = Flask(__name__, static_url_path='', static_folder='.')
 
 app.secret_key = 'SomeSecretKey'
+
 # Autheticate on opening the Server
 # If Username is not in config file, redirect to login
 @app.route('/')
 def home():
     if not 'username' in session:
         return redirect(url_for('login'))
-   # return redirect('web_delivery.html')
+    # return redirect('web_delivery.html')
    # Else proceed to url of getToOrder() function
     return 'welcome '+ session['username'] +\
         '<br><a href="'+url_for('logout')+'">logout</a>'+\
@@ -28,7 +38,7 @@ def login():
         '</button>'  
                 
 #"<a href="url_for('process_login')+"'>" +\    
- 
+  
 # Process login url  
 @app.route('/processlogin')
 def process_login():
@@ -47,22 +57,25 @@ def logout():
 def getToOrder():
     if not 'username' in session:
         abort(401)
-       # User is authorised
-    #return '{"data":"all here"}'
-    return redirect('web_cinemas5.html')
+       # User is authorised - redirect to Cinemas Homepage
+    return redirect('Cinemas_Homepage.html')
 #==============================================
-# Main Cinema Page 
+# Main Cinema Page
+
+# Create routes to Cinema table functions - stored in 'cinemasDAO.py'
 @app.route('/cinemas')
 def findAllCinemas():
     #print("in findAllCinemas")
     results = cinemasDAO.findAllCinemas()
     return jsonify(results)
 
+# Function to return Cinema_Name by ID
 @app.route('/cinemas/<int:id>')
 def findCinema_Name(id):
     foundCinema_Name = cinemasDAO.findCinema_Name(id)
     return jsonify(foundType)
 
+# Function to create new cinema (not necessary for Cinema table - but is relevant for the 3 DAO files routed below
 @app.route('/cinemas', methods=['POST'])
 def createCinemas():  
     if not request.json:
@@ -78,6 +91,7 @@ def createCinemas():
     cinemas['id'] = newId
     return jsonify(cinemas)
 
+# Once again updateCinemas is not relevant for the Cinemas table, as the user will not be asked to update the cinema list on the Cinema Homepage, this function is used by the EyeCinema, IMC Headford Road and IMC Oranmore DAO files that are connected to below
 @app.route('/cinemas/<int:id>', methods=['PUT'])
 def updateCinemas(id):
     foundType = cinemasDAO.findCinema_Name(id)
@@ -287,3 +301,5 @@ def deleteOranmore(id):
 
 if __name__ == '__main__' :
     app.run(debug= True)
+    
+      
