@@ -1,15 +1,15 @@
 <!DOCTYPE HTML>
 <html>
     <head>
-        <title>Cinemasss</title><br>
+        <title>Cinemas</title><br>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
        
 	    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 		<!<link rel="stylesheet" href="style.css">
     </head>
     <body>
-        <h1>Cinemas</h1><br>
-        <div> <button id="displayCreateButton" onclick="showCreate()">Select Cinema</button></div><br>
+        <h1>Cinemas Requiring Delivery</h1><br>
+        
         <div>
             <table class="table" id="itemsListed">
                 <tr>
@@ -19,28 +19,12 @@
                             Location
                         </th>
 						<th>Number of Screens</th>
-                        <th>Member_Status</th>
-                        <th>Cinema's Requiring Delivery</th>
-                        <th>Delete</th>
+                        <th>Go to Delivery Page</th>
                 </tr>  
             </table>
 
         </div>
-		<! Form that is shown when 'create' button is clicked-includes fields for each feature except id and a 'Create Cinema_Name' button>
-		<! Span used for inline elements>
-        <div id='createUpdateForm' style="display: none">
-				<! Button that leads from homescreen to create form>
-                <h2><span id="createLabel">Choose a </span> 
-				<! Button that leads from homescreen to update form>
-				<span id="updateLabel">Select a cinema</span> Product</h2>
-                <input type="hidden" name="id"/>
-                Cinema Name <input type="text" name="Cinema_Name" /><br/>
-                Location<input type="text" name="Location"/> <br/>
-				NumberOfScreens<input type="number" name="NumberOfScreens"/> <br/>
-                Member Status <input type="number" name="Member_Status"/> <br/>
-                <span><button id="doCreateButton" onclick="doCreate()">Select a Cinema</button></span>
-                <span><button id="doUpdateButton" onclick="doUpdate()">xxx</button></span>
-        </div>
+
 		
     </body>
     <script>
@@ -91,7 +75,7 @@
         Product.Cinema_Name = form.querySelector('input[name="Cinema_Name"]').value
         Product.Location = form.querySelector('input[name="Location"]').value
 		Product.NumberOfScreens = form.querySelector('input[name="NumberOfScreens"]').value
-        Product.Member_Status = form.querySelector('input[name="Member_Status"]').value
+  //      Product.Member_Status = form.querySelector('input[name="Member_Status"]').value
 		// Print JSON to console and pass to AJAX call
         console.log(JSON.stringify(Product))
         createProductAjax(Product)
@@ -123,30 +107,6 @@
         });
     }
 	
-    function showUpdate(buttonElement){
-        document.getElementById('displayCreateButton').style.display="none"
-        document.getElementById('itemsListed').style.display="none"
-        document.getElementById('createUpdateForm').style.display="block"
-
-        document.getElementById('createLabel').style.display="none"
-        document.getElementById('updateLabel').style.display="inline"
-
-        document.getElementById('doCreateButton').style.display="none"
-        document.getElementById('doUpdateButton').style.display="block"
-        var rowElement = buttonElement.parentNode.parentNode
-        var Product = getProductFromRow(rowElement) // HERE
-        populateFormWithProduct(Product) // TO HERE
-    }
-	    
-    function doUpdate(){
-        var Product = getProductFromForm();
-        var rowElement = document.getElementById(Product.id);
-        updateProductAjax(Product);
-        setProductInRow(rowElement,Product);
-        clearForm();
-        viewAll();
-    }
-	
 	function redirectToDelivery(Product){
 		//var Product = getProductFromForm();
 //        var rowElement = document.getElementById(Product.id);
@@ -173,53 +133,6 @@
 			window.location.href='Delivery_Eye_Cinema.html';
 			}
 	
-	
-		
-		
-	function updateProductAjax(Product){
-        console.log(JSON.stringify(Product));
-		host = window.location.origin
-        $.ajax({
-            "url": host+"/cinemas/"+encodeURI(Product.id),
-            "method":"PUT",
-            "data":JSON.stringify(Product),
-            "dataType": "JSON",
-            contentType: "application/json; charset=utf-8",
-            "success":function(result){
-               // console.log(result);
-                  
-            },
-            "error":function(xhr,status,error){
-                console.log("error: "+status+" msg:"+error);
-            }
-        });
-    }
-	
-    function doDelete(r){
-        var tableElement = document.getElementById('itemsListed');
-        var rowElement = r.parentNode.parentNode;
-        var index = rowElement.rowIndex;
-        deleteProductAjax(rowElement.getAttribute("id"));
-        tableElement.deleteRow(index);
-    }
-	
-	function deleteProductAjax(id){
-		host = window.location.origin
-        $.ajax({
-            "url": host+"/cinemas/"+encodeURI(id),
-            "method":"DELETE",
-            "data":"",
-            "dataType": "JSON",
-            contentType: "application/json; charset=utf-8",
-            "success":function(result){
-                //console.log(result);
-            },
-            "error":function(xhr,status,error){
-                console.log("error: "+status+" msg:"+error);
-            }
-        });
-    }
-	
 	// Create function to add inputs to main table
     function addProductToTable(Product){
 	// Create variable for each input from create/update forms 
@@ -239,10 +152,9 @@
 		var cell4 = rowElement.insertCell(3);
         cell4.innerHTML = Product.NumberOfScreens
 		// Member_Status
-		var cell5 = rowElement.insertCell(4);
-        cell5.innerHTML = Product.Member_Status 
+ 
 		// Pass in buttons to update and delete 
-        var cell6 = rowElement.insertCell(5);
+        var cell6 = rowElement.insertCell(4);
 		//cell6.innerHTML = '<button onclick="redirectToDelivery(Product)">S Cinema Delivery</button>'
 		if (Product.Cinema_Name == "IMC Headford Road"){
 			//window.location.href='web_deliveries.html';
@@ -258,8 +170,7 @@
 			}
 
        // cell6.innerHTML = '<button onclick="redirectToDelivery()">Selec Cinema Delivery</button>'
-        var cell7 = rowElement.insertCell(6);
-        cell7.innerHTML = '<button onclick=doDelete(this)>delete</button>' 
+   
     }
 
     function clearForm(){
@@ -268,7 +179,7 @@
         form.querySelector('input[name="Cinema_Name"]').value=''
         form.querySelector('input[name="Location"]').value=''
 		form.querySelector('input[name="NumberOfScreens"]').value=''
-        form.querySelector('input[name="Member_Status"]').value=''
+  //      form.querySelector('input[name="Member_Status"]').value=''
     }
 	
     function getProductFromRow(rowElement){
@@ -278,7 +189,7 @@
         Product.Cinema_Name = rowElement.cells[1].firstChild.textContent
         Product.Location = rowElement.cells[2].firstChild.textContent
 		Product.NumberOfScreens = parseInt(rowElement.cells[3].firstChild.textContent,10)
-        Product.Member_Status = parseInt(rowElement.cells[4].firstChild.textContent,10)
+  //      Product.Member_Status = parseInt(rowElement.cells[4].firstChild.textContent,10)
         return Product
     }
 	
@@ -287,7 +198,7 @@
         rowElement.cells[1].firstChild.textContent= Product.Cinema_Name 
         rowElement.cells[2].firstChild.textContent= Product.Location
 		rowElement.cells[3].firstChild.textContent= Product.NumberOfScreens
-        rowElement.cells[4].firstChild.textContent= Product.Member_Status
+     //   rowElement.cells[4].firstChild.textContent= Product.Member_Status
     }
 	
     function populateFormWithProduct(Product){
@@ -297,7 +208,7 @@
         form.querySelector('input[name="Cinema_Name"]').value= Product.Cinema_Name
         form.querySelector('input[name="Location"]').value= Product.Location
 		form.querySelector('input[name="NumberOfScreens"]').value= Product.NumberOfScreens
-        form.querySelector('input[name="Member_Status"]').value= Product.Member_Status
+   //     form.querySelector('input[name="Member_Status"]').value= Product.Member_Status
         return Product
     }
 	
@@ -308,7 +219,7 @@
         Product.Cinema_Name = form.querySelector('input[name="Cinema_Name"]').value
         Product.Location = form.querySelector('input[name="Location"]').value
 		Product.NumberOfScreens = parseInt(form.querySelector('input[name="NumberOfScreens"]').value,10)
-        Product.Member_Status = parseInt(form.querySelector('input[name="Member_Status"]').value,10)
+  //      Product.Member_Status = parseInt(form.querySelector('input[name="Member_Status"]').value,10)
         console.log(JSON.stringify(Product))
         return Product
     }
