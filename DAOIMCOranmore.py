@@ -3,7 +3,7 @@ import json
 #import dbconfig as cfg2
 import dbconfigCinemas as cfg2
 
-class DeliveryDAOHeadfordRoad:
+class DeliveryDAOOranmore:
     db=""
     
 #    def createDatabase(self):
@@ -38,9 +38,9 @@ class DeliveryDAOHeadfordRoad:
         database=cfg2.mysql['database']
         )
   
-    def findAll(self):
+    def findAllOranmore(self):
         cursor = self.db.cursor()
-        sql="select * from IMCHeadfordRoad"
+        sql="select * from IMCOranmore"
         cursor.execute(sql)
         results = cursor.fetchall()
         returnArray = []
@@ -50,30 +50,30 @@ class DeliveryDAOHeadfordRoad:
             returnArray.append(self.convertToDictionary(result))
         return returnArray
         
-    def findItem(self, id):
+    def findItemOranmore(self, id):
         cursor = self.db.cursor()
-        sql="select * from IMCHeadfordRoad where id = %s"
+        sql="select * from IMCOranmore where id = %s"
         values = (id,)
         cursor.execute(sql, values)
         result = cursor.fetchone()
         return self.convertToDictionary(result)
             
-    def create(self, values):
+    def createOranmore(self, values):
         cursor = self.db.cursor()
-        sql="insert into IMCHeadfordRoad (Item, Type, Quantity, TotPrice) values (%s,%s,%s,%s)"
+        sql="insert into IMCOranmore (Item, Type, Quantity, TotPrice) values (%s,%s,%s,%s)"
         cursor.execute(sql, values)
         self.db.commit()
         return cursor.lastrowid
 
-    def update(self, values):
+    def updateOranmore(self, values):
         cursor = self.db.cursor()
-        sql="update IMCHeadfordRoad set Item=%s, Type=%s, Quantity=%s, TotPrice=%s  where id = %s"
+        sql="update IMCOranmore set Item=%s, Type=%s, Quantity=%s, TotPrice=%s  where id = %s"
         cursor.execute(sql, values)
         self.db.commit()
 
-    def delete(self, id):
+    def deleteOranmore(self, id):
         cursor = self.db.cursor()
-        sql="delete from IMCHeadfordRoad where id = %s"
+        sql="delete from IMCOranmore where id = %s"
         values = (id,)
         cursor.execute(sql, values)
         self.db.commit()
@@ -88,6 +88,6 @@ class DeliveryDAOHeadfordRoad:
                 item[colName] = value        
         return item
         
-deliveryDAOHeadfordRoad = DeliveryDAOHeadfordRoad()
+deliveryDAOOranmore = DeliveryDAOOranmore()
 
 

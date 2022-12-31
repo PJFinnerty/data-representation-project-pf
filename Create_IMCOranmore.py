@@ -1,27 +1,22 @@
 import mysql.connector
 import json
-import dbconfig as cfg
+import dbconfigCinemas as cfg
 
-# This program will create the CinemasDelivery database and Cinemas table
+
 db=""
 def createCinemasDatabase():
-    # Set dep = Mysql connector object
     db = mysql.connector.connect(
-    # Set parameters = dbconfig file values
         host=cfg.mysql['host'],
         user=cfg.mysql['user'],
         password=cfg.mysql['password']    
     )
-    # Call the cursor object and pass in sql command
     cursor = db.cursor()
     sql = "create database CinemaDelivery"
     cursor.execute(sql)
-    # Commit changes and close db and cursor
     db.commit()
     db.close()
     cursor.close()
-  
-# Function to create Cinemas table with 4 cols: Cinema_Name, Location, NumberOfScreens and Member_Status  
+    
 def createDeliveryTable():
     db = mysql.connector.connect(
         host=cfg.mysql['host'],
@@ -30,32 +25,31 @@ def createDeliveryTable():
         database="CinemaDelivery"
     )
     cursor = db.cursor()
-    sql = "CREATE TABLE Cinemas (id int PRIMARY KEY AUTO_INCREMENT, Cinema_Name varchar(255), Location Varchar(255), NumberOfScreens int, Member_Status int);"
+    sql = "CREATE TABLE IMCOranmore (id int PRIMARY KEY AUTO_INCREMENT, Item varchar(255), Type Varchar(255), Quantity int, TotPrice int);"
     cursor.execute(sql)
     db.commit()
     db.close()
     cursor.close()
     
-# Call the create database and create table command - these should only be called 1
-createCinemasDatabase()
+#createCinemasDatabase()
 createDeliveryTable() 
    
 
 #def create(values):
-
-# Now create db2 variable and pass in the 3 insert command below for the 3 cinemas - print statement to the screen to confirm successful insert and commit()
 db2 = mysql.connector.connect(
     host=cfg.mysql['host'],
     user=cfg.mysql['user'],
     password=cfg.mysql['password'],
     database="CinemaDelivery"
 )
+# Insert new values for Oranmore table, commit and print to confirm
 cursor = db2.cursor()
-sql="insert into Cinemas (Cinema_Name, Location, NumberOfScreens, Member_Status) values (%s,%s,%s,%s)"
-create1= ("IMC Oranmore", "Oranmore", 5, 1)
-create2= ("IMC Headford Road", "Headfor Road", 9, 1)
-create3= ("The Eye Cinema", "Wellpark Retail Park", 8, 0)
-
+sql="insert into IMCOranmore (Item, Type, Quantity, TotPrice) values (%s,%s,%s,%s)"
+create1= ("Coca Cola", "Soft-drinks", 50, 30)
+create2= ("Bin bags", "Cleaning Products", 30, 14)
+create3= ("Tea bags", "Food", 40, 32)
+create4= ("Cadbury Caramel", "Food", 40, 32)
+create5= ("Uniform", "Staffing", 40, 32)
 cursor.execute(sql, create1)
 db2.commit()
 print("1 record inserted , ID: ", cursor.lastrowid)
@@ -67,3 +61,14 @@ db2.commit()
 cursor.execute(sql, create3)
 print("1 record inserted , ID: ", cursor.lastrowid)
 db2.commit()
+    
+cursor.execute(sql, create4)
+print("1 record inserted , ID: ", cursor.lastrowid)
+db2.commit()
+    
+cursor.execute(sql, create5)
+print("1 record inserted , ID: ", cursor.lastrowid)
+db2.commit()
+    
+
+

@@ -2,6 +2,7 @@
 <html>
     <head>
         <title>Cinemas</title><br>
+		<! Import Ajax Jquery library>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
        
 	    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -11,6 +12,7 @@
         <h1>Cinemas Requiring Delivery</h1><br>
         
         <div>
+		<! Create table to contain the 3 cinemas listed and contained in the cinemas table >
             <table class="table" id="itemsListed">
                 <tr>
                         <th>id</th>
@@ -28,13 +30,13 @@
 		
     </body>
     <script>
-	
+	// Function to viewAll cinemas contained in the cinemas list
 	function viewAll(){
         document.getElementById('displayCreateButton').style.display="block"
         document.getElementById('itemsListed').style.display="block"
         document.getElementById('createUpdateForm').style.display="none"
     }
-	
+	// getall function for the cinemas list
 	function getAllAjax(){
 		host = window.location.origin
         $.ajax({
@@ -107,20 +109,21 @@
         });
     }
 	
-	function redirectToDelivery(Product){
-		//var Product = getProductFromForm();
-//        var rowElement = document.getElementById(Product.id);
-		if (Product.Cinema_Name = "IMC Oranmore"){
-			window.location.href='web_cinemas.html';
-			}
-		else if (Product.Cinema_Name = "The Eye Cinema"){
-			window.location.href='web_deliveries.html';
-			}
-		else if (Product.Cinema_Name = "IMC Headford Road"){
-			window.location.href='web_cinemas2-Copy.html';
-			}
-	}
+	//function redirectToDelivery(Product){
+	//	//var Product = getProductFromForm();
+//  //      var rowElement = document.getElementById(Product.id);
+	//	if (Product.Cinema_Name = "IMC Oranmore"){
+	//		window.location.href='web_cinemas.html';
+	//		}
+	//	else if (Product.Cinema_Name = "The Eye Cinema"){
+	//		window.location.href='web_deliveries.html';
+	//		}
+	//	else if (Product.Cinema_Name = "IMC Headford Road"){
+	//		window.location.href='web_cinemas2-Copy.html';
+	//		}
+	//}
 	
+	// Redirect functions used to redirect the user to one of the three delivery pages, based on their selection
 		function redirectHeadford(){
 			window.location.href='Delivery_IMC_Headford_Road.html';
 			}
