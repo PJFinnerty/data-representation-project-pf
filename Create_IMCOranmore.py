@@ -30,7 +30,8 @@ def createDeliveryTable():
     db.commit()
     db.close()
     cursor.close()
-    
+
+# Call the create table command - this should only be called once - No need to create database as it was already Created 
 #createCinemasDatabase()
 createDeliveryTable() 
    

@@ -31,11 +31,13 @@ def createDeliveryTable():
     db.close()
     cursor.close()
     
+    
+# Call the create table command - this should only be called once - No need to create database as it was already Created
 #createCinemasDatabase()
 createDeliveryTable() 
    
 
-def create(values):
+# Open MySQL Connector
 db2 = mysql.connector.connect(
     host=cfg.mysql['host'],
     user=cfg.mysql['user'],
@@ -64,39 +66,39 @@ cursor.execute(sql, create4)
 print("1 record inserted , ID: ", cursor.lastrowid)
 db2.commit()
     
-def createCinemasDatabase(self):
-    self.db = mysql.connector.connect(
-        host=cfg.mysql['host'],
-        user=cfg.mysql['user'],
-        password=cfg.mysql['password']    
-    )
-    self.cursor = self.connection.cursor()
-    sql = "create database delivery"
-    self.cursor.execute(sql)
-    self.connection.commit()
-    self.closeAll()
-    
-def populateCinemasTable(self):
-    self.db = mysql.connector.connect(
-        host=cfg.mysql['host'],
-        user=cfg.mysql['user'],
-        password=cfg.mysql['password']    
-    ) 
-    
-def createCinemas(self, values):
-        cursor = self.db.cursor()
-        sql="insert into cinemas (Cinema_Name, Location, NumberOfScreens, Member_Status) values (%s,%s,%s,%s)"
-        cursor.execute(sql, values)
-        self.db.commit()
-        return cursor.lastrowid
-    
-def __init__(self): 
-    self.db = mysql.connector.connect(
-    host=cfg.mysql['host'],
-    user=cfg.mysql['user'],
-    password=cfg.mysql['password'],
-    database=cfg.mysql['database']
-    )
+#def createCinemasDatabase(self):
+#    self.db = mysql.connector.connect(
+#        host=cfg.mysql['host'],
+#        user=cfg.mysql['user'],
+#        password=cfg.mysql['password']    
+#    )
+#    self.cursor = self.connection.cursor()
+#    sql = "create database delivery"
+#    self.cursor.execute(sql)
+#    self.connection.commit()
+#    self.closeAll()
+#    
+#def populateCinemasTable(self):
+#    self.db = mysql.connector.connect(
+#        host=cfg.mysql['host'],
+#        user=cfg.mysql['user'],
+#        password=cfg.mysql['password']    
+#    ) 
+#    
+#def createCinemas(self, values):
+#        cursor = self.db.cursor()
+#        sql="insert into cinemas (Cinema_Name, Location, NumberOfScreens, Member_Status) values (%s,%s,%s,%s)"
+#        cursor.execute(sql, values)
+#        self.db.commit()
+#        return cursor.lastrowid
+#    
+#def __init__(self): 
+#    self.db = mysql.connector.connect(
+#    host=cfg.mysql['host'],
+#    user=cfg.mysql['user'],
+#    password=cfg.mysql['password'],
+#    database=cfg.mysql['database']
+#    )
 
 
 

@@ -4,20 +4,19 @@ Main Project for Data Representation module in the H.Dip in Data Analytics.
 
 ## Outline
 
-This project aims to simulate a system to manage delivery of products to Galway Cinemas. The project is intended to demonstrate core understanding of creating a Rest API, featuring a server, interacting with Data Access Object files, user input from html pages, and pass these inputs back down to a database.
+This project aims to simulate a system to manage delivery of products to Galway Cinemas. The project is intended to demonstrate core understanding of creating a Rest API, featuring a server, interacting with Data Access Object files and user input from html pages, that pass these inputs back down to a database.
 
 #### The project at a basic level features the following:
 
 1. A basic Flask server that has a
 2. REST API, (to perform CRUD operations)
-3. One database table and
-4. Accompanying web interface, using AJAX
-calls, to perform these CRUD operations
+3. A main database table (which is the Cinemas table which features the names of the three cinemas, details on number of screens and location)
+4. Accompanying web interface, using AJAX calls, to perform these CRUD operations
 
 Additionally, it features:
 5. Authorisation by the server through the HTML page (verified by the username recorded in the ipconfig file)
 and
-6. 4 database tables (one of which is the Cinemas table which features the names of the three cinemas, and three are of the same design but relate to different orders for each of the Cinemas.
+6. 3 other database tables (which are of the same design but relate to different delivery orders for each of the Cinemas) - these are all linked to the main Cinemas table. It is the delivery tables that are used to perform CRUD operations on.
 
 ## Requirements to Run Server
 
@@ -27,7 +26,7 @@ and
 3. 'Create_IMCHeadford.py' 
 4. 'Create_IMCOranmore.py'
 
-This will create a single database, but 4 separate SQL tables, each in the same database. Each file run SQL insert commands to populate the tables with some initial data. Print statements in each of the files should verify to the user that the inserts have worked. Should this process fail, I have included SQL files for the 'CinemasDelivery' database, that should create the tables and pass the insert commands.
+This will create a single database, but 4 separate SQL tables, each in the same database. Each file runs SQL insert commands to populate the tables with some initial data. Print statements in each of the files should verify to the user that the inserts have worked. Should this process fail, I have included SQL files for the 'CinemasDelivery' database, that should create the tables and pass the insert commands.
 
 #### Following this, the user may run the server by simply running the following file:
 1. 'server_cinemas-delivery.py' - this is the main file that links to the DAO and allows the user to access http://127.0.0.1:5000/, which will direct to a login page, configured in the server file. The user should be prompted to login, at which point, they should be autoatically directed to the 'Cinemas_Homepage.html' file - their current location being http://127.0.0.1:5000/Cinemas_Homepage.html.
@@ -39,18 +38,29 @@ This will create a single database, but 4 separate SQL tables, each in the same 
 
 On these pages, the user can choose to update a current delivery option, delete an item, or add a new item. Each of the tables contain separate items, as the cinemas in this simulation would require different items.
 
+##### Config Files
+ipconfig.py and ifconfigcinemas.py files - these two files feature user and database details to access MySQL. 
+
+##### ** NB: Should there be an issue for the user in accessing the databases created, the username can be changed in the ipconfig files. As the DAO and server make calls to the databases according to these files, this change is all that is needed.
+
 ##### DAO Files
 1. CinemasDAO.py - this file features the functions to access and manipulate the Cinemas tables
 2. DAOEyeCinema.py - this accesses the EyeCinema table
 3. DAOIMCHeadfordRoad.py - this accesses the IMCHeadfordRoad table
 4. DAOIMCOranmore.py - this file connects the server to the IMCOranmore table
 
+##### SQL Files (Incase there is issue with the Create table tiles, SQL files can be run directly)
+1. Cinemas.sql - SQL commands to create the database CinemaDelivery and the Cinemas table
+2. Cinemas-EyeCinema.sql - SQL commands to create the EyeCinema table
+3. Cinemas-IMCHeadford.sql - SQL commands to create the IMCHeadford table
+4. Cinemas-IMCOranmore.sql - SQL commands to create the IMCOranmore table
+
 ##### Requirements
 The user must have Python and MySQL installed on their machines to run the server and access/edit the data
 
 The .gitignore file features the relevant modules that should be ignored by git, including .venv.
 
-##### ipconfig.py and ifconfigcinemas.py - these two files feature user and database details to access MySQL. ** NB: Should there be an issue for the user in accessing the databases created, the username can be changed in these files.
+
 
 
 
