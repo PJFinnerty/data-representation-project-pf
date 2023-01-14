@@ -131,3 +131,5 @@ dmypy.json
 
 # Configuation file
 *config.py
+dbconfig
+dbconfigCinemas
