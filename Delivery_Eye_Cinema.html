@@ -8,7 +8,7 @@
 		<!<link rel="stylesheet" href="style.css">
     </head>
     <body>
-        <h1>Delivery for Newsagents</h1><br>
+        <h1>Delivery for Eye Cinema</h1><br>
         <div> <button id="displayCreateButton" onclick="showCreate()">Order new Item</button></div><br>
         <div>
             <table class="table" id="itemsListed">
@@ -54,7 +54,7 @@
 	function getAllAjax(){
 		host = window.location.origin
         $.ajax({
-            "url": host+"/EyeCinema",
+            "url":"/EyeCinema",
             "method":"GET",
             "data":"",
             "dataRype": "JSON",
@@ -102,7 +102,7 @@
 		// Ajax cod for create (POST), set type to JSON
 		host = window.location.origin
         $.ajax({
-            "url": host+"/EyeCinema",
+            "url":"/EyeCinema",
             "method":"POST",
             "data":JSON.stringify(Product),
             "dataRype": "JSON",
@@ -151,7 +151,7 @@
         console.log(JSON.stringify(Product));
 		host = window.location.origin
         $.ajax({
-            "url": host+"/EyeCinema/"+encodeURI(Product.id),
+            "url":"/EyeCinema/"+encodeURI(Product.id),
             "method":"PUT",
             "data":JSON.stringify(Product),
             "dataRype": "JSON",
@@ -177,7 +177,7 @@
 	function deleteProductAjax(id){
 		host = window.location.origin
         $.ajax({
-            "url": host+"/EyeCinema/"+encodeURI(id),
+            "url":"/EyeCinema/"+encodeURI(id),
             "method":"DELETE",
             "data":"",
             "dataRype": "JSON",
