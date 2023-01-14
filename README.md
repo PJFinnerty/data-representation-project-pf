@@ -13,10 +13,11 @@ This project aims to simulate a system to manage delivery of products to Galway 
 3. A main database table (which is the Cinemas table which features the names of the three cinemas, details on number of screens and location)
 4. Accompanying web interface, using AJAX calls, to perform these CRUD operations
 
-Additionally, it features:
+##### Additionally, it features:
 5. Authorisation by the server through the HTML page (verified by the username recorded in the ipconfig file)
 and
 6. 3 other database tables (which are of the same design but relate to different delivery orders for each of the Cinemas) - these are all linked to the main Cinemas table. It is the delivery tables that are used to perform CRUD operations on.
+7. The server and database are hosted online, at PythonAnywhere - allowing the user to access the full functionality at the following address: 'http://finnertypete.pythonanywhere.com/'
 
 ## Requirements to Run Server
 
