@@ -54,7 +54,7 @@ db2 = mysql.connector.connect(
 cursor = db2.cursor()
 sql="insert into Cinemas (Cinema_Name, Location, NumberOfScreens, Member_Status) values (%s,%s,%s,%s)"
 create1= ("IMC Oranmore", "Oranmore", 5, 1)
-create2= ("IMC Headford Road", "Headfor Road", 9, 1)
+create2= ("IMC Headford Road", "Headford Road", 9, 1)
 create3= ("The Eye Cinema", "Wellpark Retail Park", 8, 0)
 
 cursor.execute(sql, create1)

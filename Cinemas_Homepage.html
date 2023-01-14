@@ -40,7 +40,7 @@
 	function getAllAjax(){
 		host = window.location.origin
         $.ajax({
-            "url": host+"/cinemas",
+            "url":"/cinemas",
             "method":"GET",
             "data":"",
             "dataType": "JSON",
@@ -88,7 +88,7 @@
 		// Ajax cod for create (POST), set type to JSON
 		host = window.location.origin
         $.ajax({
-            "url": host+"/cinemas",
+            "url":"/cinemas",
             "method":"POST",
             "data":JSON.stringify(Product),
             "dataType": "JSON",

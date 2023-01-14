@@ -54,7 +54,7 @@
 	function getAllAjax(){
 		host = window.location.origin
         $.ajax({
-            "url": host+"/IMCHeadfordRoad",
+            "url":"/IMCHeadfordRoad",
             "method":"GET",
             "data":"",
             "dataRype": "JSON",
@@ -102,7 +102,7 @@
 		// Ajax cod for create (POST), set type to JSON
 		host = window.location.origin
         $.ajax({
-            "url": host+"/IMCHeadfordRoad",
+            "url":"/IMCHeadfordRoad",
             "method":"POST",
             "data":JSON.stringify(Product),
             "dataRype": "JSON",
@@ -151,7 +151,7 @@
         console.log(JSON.stringify(Product));
 		host = window.location.origin
         $.ajax({
-            "url": host+"/IMCHeadfordRoad/"+encodeURI(Product.id),
+            "url":"/IMCHeadfordRoad/"+encodeURI(Product.id),
             "method":"PUT",
             "data":JSON.stringify(Product),
             "dataRype": "JSON",
@@ -177,7 +177,7 @@
 	function deleteProductAjax(id){
 		host = window.location.origin
         $.ajax({
-            "url": host+"/IMCHeadfordRoad/"+encodeURI(id),
+            "url":"/IMCHeadfordRoad/"+encodeURI(id),
             "method":"DELETE",
             "data":"",
             "dataRype": "JSON",

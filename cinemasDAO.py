@@ -28,7 +28,7 @@ class CinemasDAO:
   # Create findAllCinemas Functions, with SQL command and execute
     def findAllCinemas(self):
         cursor = self.db.cursor()
-        sql="select * from cinemas"
+        sql="select * from Cinemas"
         cursor.execute(sql)
         # Call fetchall and initialise an empty list
         results = cursor.fetchall()
@@ -43,7 +43,7 @@ class CinemasDAO:
 # Create findCinema_Name() function to return based on cinema ID      
     def findCinema_Name(self, id):
         cursor = self.db.cursor()
-        sql="select * from cinemas where id = %s"
+        sql="select * from Cinemas where id = %s"
         values = (id,)
         cursor.execute(sql, values)
         result = cursor.fetchone()
@@ -52,20 +52,20 @@ class CinemasDAO:
        # Create Cinema, Update, and delete will not be used through the html cinemas page, but the functions listed in the Delivery DAO pages will be used
     def createCinemas(self, values):
         cursor = self.db.cursor()
-        sql="insert into cinemas (Cinema_Name, Location, NumberOfScreens, Member_Status) values (%s,%s,%s,%s)"
+        sql="insert into Cinemas (Cinema_Name, Location, NumberOfScreens, Member_Status) values (%s,%s,%s,%s)"
         cursor.execute(sql, values)
         self.db.commit()
         return cursor.lastrowid
 
     def updateCinemas(self, values):
         cursor = self.db.cursor()
-        sql="updateCinemas cinemas set Cinema_Name=%s, Location=%s, NumberOfScreens=%s, Member_Status=%s  where id = %s"
+        sql="updateCinemas Cinemas set Cinema_Name=%s, Location=%s, NumberOfScreens=%s, Member_Status=%s  where id = %s"
         cursor.execute(sql, values)
         self.db.commit()
 
     def deleteCinemas(self, id):
         cursor = self.db.cursor()
-        sql="deleteCinemas from cinemas where id = %s"
+        sql="deleteCinemas from Cinemas where id = %s"
         values = (id,)
         cursor.execute(sql, values)
         self.db.commit()
