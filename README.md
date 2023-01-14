@@ -19,8 +19,12 @@ and
 6. 3 other database tables (which are of the same design but relate to different delivery orders for each of the Cinemas) - these are all linked to the main Cinemas table. It is the delivery tables that are used to perform CRUD operations on.
 7. The server and database are hosted online, at PythonAnywhere - allowing the user to access the full functionality at the following address: 'http://finnertypete.pythonanywhere.com/'
 
-## Requirements to Run Server
+## How to Run the Server - There are two ways to run the server, and access the database, both are listed below.
 
+## 1. Access online through python anywhere, at 'http://finnertypete.pythonanywhere.com/'
+This is the recommended option as it does not require any creating of MySQL databases. The PythonAnywhere web app above, connects to a virtual MySQL table, and is configured using bash, with the required password and username. The project files are all contained within a virtual directory on Python Anywhere. The user can simple access the url and will be taken to the Homepage and can make edits to the Cinema delivery pages from there.
+
+## 2. Access through the local host - accessing locally requires taking the steps listed below: 
 #### Before starting the server, the user must run the following 4 files:
 1. 'Create_CinemaList.py'
 2. 'Create_EyeCinema.py'
@@ -30,7 +34,7 @@ and
 This will create a single database, but 4 separate SQL tables, each in the same database. Each file runs SQL insert commands to populate the tables with some initial data. Print statements in each of the files should verify to the user that the inserts have worked. Should this process fail, I have included SQL files for the 'CinemasDelivery' database, that should create the tables and pass the insert commands.
 
 #### Following this, the user may run the server by simply running the following file:
-1. 'server_cinemas-delivery.py' - this is the main file that links to the DAO and allows the user to access http://127.0.0.1:5000/, which will direct to a login page, configured in the server file. The user should be prompted to login, at which point, they should be autoatically directed to the 'Cinemas_Homepage.html' file - their current location being http://127.0.0.1:5000/Cinemas_Homepage.html.
+'server_cinemas-delivery.py' - this is the main file that links to the DAO and allows the user to access http://127.0.0.1:5000/, which will direct to a login page, configured in the server file. The user should be prompted to login, at which point, they should be autoatically directed to the 'Cinemas_Homepage.html' file - their current location being http://127.0.0.1:5000/Cinemas_Homepage.html.
 
 #### From the Cinemas_Homepage, which connects to the Cinemas table, you will be able to choose a redirect to enter delivery options at one of the following pages:
 1. Delivery_Eye_Cinema.html - connects to the EyeCinema table
