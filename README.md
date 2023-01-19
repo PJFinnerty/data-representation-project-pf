@@ -19,6 +19,8 @@ and
 6. 3 other database tables (which are of the same design but relate to different delivery orders for each of the Cinemas) - these are all linked to the main Cinemas table. It is the delivery tables that are used to perform CRUD operations on.
 7. The server and database are hosted online, at PythonAnywhere - allowing the user to access the full functionality at the following address: 'http://finnertypete.pythonanywhere.com/'
 
+NB: A separate repsitory was created to practice hosting the server on Python Anywhere. The url for this practice repository is https://github.com/PJFinnerty/DR-Server-Hosting - this was done to avoid any conflicts that could occur in the Git tree. As such, some of the functionality of hosting the server online was scoped out in this practice repository before being implemented in this main project repository.
+
 ## How to Run the Server - There are two ways to run the server, and access the database, both are listed below.
 
 ## 1. Access online through python anywhere, at 'http://finnertypete.pythonanywhere.com/'
